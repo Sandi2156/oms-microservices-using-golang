@@ -1,13 +1,15 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
+
+	_ "github.com/joho/godotenv/autoload"
+	"github.com/sandi2156/oms-microservices-using-go/common"
 )
 
-const (
-	addr = ":8080"
+var (
+	addr = common.GetEnv("HTTP_ADDR", ":8080")
 )
 
 func main() {
@@ -16,7 +18,7 @@ func main() {
 	handler := NewHandler()
 	handler.RegisterRoutes(mux)
 
-	fmt.Printf("Started the server")
+	log.Printf("Started the server on %s", addr)
 
 	if err := http.ListenAndServe(addr, mux); err != nil {
 		log.Fatal("Error starting the server")
